@@ -25,10 +25,20 @@ SECRET_KEY = 'django-insecure-+_5p%ad-1=z*8uv+7epl@&wk8gng3^7!k(9q=79p7m4@x_v#zo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
 ALLOWED_HOSTS = [
     '8000-mattegtr-importtrack-l6dxot3u8yd.ws-eu110.gitpod.io'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-mattegtr-importtrack-l6dxot3u8yd.ws-eu110.gitpod.io'
+]
 
 # Application definition
 
@@ -39,6 +49,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    #'allauth.socialaccount.providers.amazon',
+    #'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Allauth
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'virtual_doc.urls'
@@ -123,3 +143,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Added for Allauth login
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
